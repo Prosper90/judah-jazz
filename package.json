@@ -1,0 +1,26 @@
+{
+  "name": "judah-jazz",
+  "version": "1.0.0",
+  "description": "A christain music group",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Prosper90/judah-jazz.git"
+  },
+  "author": "Onyekosor Prosper",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Prosper90/judah-jazz/issues"
+  },
+  "homepage": "https://github.com/Prosper90/judah-jazz#readme",
+  "dependencies": {
+    "ejs": "^3.1.6",
+    "express": "^4.17.1",
+    "mongo": "^0.1.0",
+    "mongoose": "^5.12.3",
+    "nodemon": "^2.0.7"
+  }
+}
