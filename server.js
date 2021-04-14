@@ -1,12 +1,13 @@
  const express = require("express");
-
+ const path = require('path');
+const serveStatic = require('serve-static');
  const app = express();
 
- app.app.use('/static', express.static(__dirname + 'public'));
+ app.use(express.static(path.join(__dirname, "public")));
  app.set("view engine", "ejs");
 
  app.get("/", function(req, res){
-   res.render("views/home");
+   res.render("home");
  });
 
 
