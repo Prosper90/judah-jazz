@@ -6,27 +6,30 @@ const serveStatic = require('serve-static');
 
 let databasemusic = [
   {
+    id: "hey-i",
 name: "He turned it",
 firstAuthur: "Tye tribbet",
-date: "i4th of april 2021",
-audiourl: "C:\Users\pc\Music\burna-boy-ye-official-video.mp3",
-description: "Edited and written by praise"
+date: new Date(),
+audiourl: "./assets/audio/burna-boy-ye-official-video.mp3",
+img: "./assets/img/avatar.jpg"
 },
 
 {
+  id: "hey-ii",
 name: "Blessings",
 firstAuthur: "James fortune",
-date: "i4th of april 2021",
-audiourl: "C:\Users\pc\Music\ckay-love-nwantiti-remix-ft-joeboy-kuami-eugene-offici.mp3",
-description: "Edited and written by Solo"
+date: new Date(),
+audiourl: "./assets/audio/ckay-love-nwantiti-remix-ft-joeboy-kuami-eugene-offici.mp3",
+img: "./assets/img/ryan.jpg"
 },
 
 {
+  id: "hey-iii",
 name: "Let it rain",
 firstAuthur: "Kirk franklin",
-date: "i4th of april 2021",
-audiourl: "C:\Users\pc\Music\hakuna-matata-the-lion-king-1994.mp3",
-description: "Edited and written by Prevail"
+date: new Date(),
+audiourl: "./assets/audio/hakuna-matata-the-lion-king-1994.mp3",
+img: "./assets/img/julie.jpg"
 }
 ];
 
@@ -34,14 +37,7 @@ description: "Edited and written by Prevail"
  app.set("view engine", "ejs");
 
  app.get("/", function(req, res){
-   res.render("home", {
-     name:databasemusic.name,
-     description: databasemusic.description,
-     date: databasemusic.date,
-     audiourl: databasemusic.audiourl,
-     firstAuthur: databasemusic.firstAuthur,
-     databasemusic: databasemusic
-}
+   res.render("home", { databasemusic: databasemusic }
  );
  });
 
