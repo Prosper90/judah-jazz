@@ -118,18 +118,18 @@
 
        <div class="col-md-4 col-sm">
            <div class="card justify-content-around shadow p-3 mb-5 bg-white rounded d-flex flex-column" style="width: 15 rem; height: 9 rem;">
-             <audio id=<%=data.id%> src=<%= data.audiourl %> ></audio>
+             <audio id=<%=data.id%> src=<%= data.audiourl %> width="30" height="20"></audio>
     <!-- custom audio -->
       <div class"player d-flex flex-column">
-           <img src=<%= data.img %> alt="Music Image">
-           <div class="progress"> </div>
+           <img src=<%= data.img %> alt="Music Image" class="img-thumbnail">
+           <div id=<%=data.id%> class="progress"> </div>
       </div>
 <!-- end of custom audio -->
              <div class="card-body pt-5 d-flex flex-column">
                <h5 class="card-title"><%= data.name %></h5>
                <p class="card-text font-weight-light small"><%= data.firstAuthur %></p>
-               <i class="card-text font-weight-light small"><%= data.date.toLocaleDateString() %></i>
-               <a  class="btn btn-primary play"> Play </a>
+               <i class="card-text font-weight-light small text-muted"><%= data.date.toLocaleDateString() %></i>
+               <a  class="btn btn-primary play" id=<%=data.id%>> Play </a>
              </div>
            </div>
          </div>
@@ -199,32 +199,47 @@
 
 
 
-function audVar(data){
+
        var myVar = <%- JSON.stringify(databasemusic) %>;
-        //start of for
-        for(let i = 0; i < myVar.length; i++){
-       let aud = myVar[i].id[0];
-       console.log(aud);
-}
-}
+
+      let idValues = myVar.map((items) => {
+        return items.id;
+      });
+    //console.log(idValues)
+
+
+     //console.log(check);
 
 
 $(".play").on("click", function(){
-       // begin of if
+
+let check = $(this).attr("id");
+
+
+       idValues.map((ids)=> {
+         let aud = $( "#" + ids + "")[0];
+         if(check === ids){
+            // begin of this if
      if(aud.paused){
 
      aud.play();
-     $(".play").text("Pause");
+     $(this).text("Pause");
 
     } else {
            aud.pause();
-        $(".play").text("Play");
+        $(this).text("Play");
     }
     // end of if
     aud.ontimeupdate = function() {
+      let check2 = $(".progress").attr("id");
+      if(check2 === ids ){
     $(".progress").css("width", aud.currentTime / aud.duration * 100 + "%");
+    $(".progress").css("background-color", "orange");
     }
+  }
+}
 
+});
 });
 
 
