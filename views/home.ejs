@@ -113,12 +113,12 @@
      </br>
 
 <div class="container">
-     <div class="row justify-content-around">
+     <div class="row  justify-content-around align-items center">
 
      <% databasemusic.forEach( function(data){ %>
 
-       <div class="col-md-4 col-sm">
-           <div class="card justify-content-around shadow p-3 mb-5 bg-white rounded d-flex flex-column" style="width: 16rem;">
+       <div class="col-md-4 col-sm vh-100 d-flex align-items-center justify-content-center">
+           <div class="card justify-content-around shadow bg-white rounded align-self-center " style="width: 17rem;">
              <audio id=<%=data.id%> src=<%= data.audiourl %>></audio>
     <!-- custom audio -->
       <div class"player d-flex flex-column">
@@ -129,8 +129,10 @@
              <div class="card-body pt-5 d-flex flex-column">
                <h5 class="card-title"><%= data.name %></h5>
                <div class="d-flex flex-row ">
-                 <p class="card-text font-weight-light small"><%= data.firstAuthur %></p>
-                <i id="reload" class="fas fa-sync-alt shadow  bg-white"></i>
+                 <p class="card-text font-weight-light small pt-4"><%= data.firstAuthur %></p>
+                <a  class="btn btn-primary reload-2 ml-5">
+                  <i id="reload" class="fas fa-sync-alt "></i>
+                 </a>
                </div>
                <i class="card-text font-weight-light small text-muted"><%= data.date.toLocaleDateString() %></i>
                <a  class="btn btn-primary play" id=<%=data.id%>> Play </a>
@@ -155,7 +157,7 @@
             <ul>
               <li>
                 <a href="https://www.creative-tim.com">
-                  Creative Tim
+                  Members
                 </a>
               </li>
               <li>
@@ -240,7 +242,7 @@ console.log(check);
       $("."+ check + "").css("height", 7);
   }
 
-  $("#reload").on("click", function(){
+  $(".reload-2").on("click", function(){
     aud.currentTime = 0;
   });
 
