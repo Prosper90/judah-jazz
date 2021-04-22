@@ -1,10 +1,21 @@
 .tim-row {
-  margin-bottom: 20px;
+  margin-bottom: 17px;
 }
 
-#reload{
-  font-size: 12px;
+#reloadButton{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 130px;
+  padding-top: 20px;
+  background-color: RGB(242, 102, 58);
+  border-radius: 10px;
+  width: 40px;
+  height: 15px;
+
 }
+
+
 
 .tim-white-buttons {
   background-color: #777777;
