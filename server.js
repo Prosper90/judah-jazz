@@ -28,7 +28,8 @@ app.use("/About", about);
 
 
 //get request for the home view
- app.get("/", async function(req, res){
+ app.get("/", async function(req, res, next){
+
  let page = req.query.page;
  let size = 6;
  if(!page){
@@ -36,12 +37,25 @@ app.use("/About", about);
 }
   const limit = size;
   const skip = (page - 1) * size;
-   const song = await Song.find().limit(limit).skip(skip);
+
+   const song = await Song.find().sort({ _id: -1}).limit(limit).skip(skip);
+
+   const totalCount = await Song.count();
+
+   //console.log(totalSongs);
 
 
-
-   res.render("home", {  song : song });
+   res.render("home",
+   {
+     song : song,
+      currentPage : page,
+     pageCount : Math.ceil(totalCount/size)
+    });
  });
+
+
+
+
 
  app.listen(3000, () => {
    console.log("listening on port 3000");
