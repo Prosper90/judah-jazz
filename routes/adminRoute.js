@@ -2,10 +2,31 @@ const express = require("express");
 const path = require('path');
 const mongoose = require("mongoose");
 const Song = require("../models/musicmodel.js");
+const Admin = require("../models/adminModel");
 const multer = require("multer");
 const fs = require("fs");
+const passport = require("passport");
+const localStrategy = require("passport-local");
+const auth = require("../passportAuth/auth");
 const router = express.Router();
 
+
+
+
+
+
+
+
+router.get("/login", function(req, res){
+ res.render("adminLogin");
+});
+
+
+router.post('/login', passport.authenticate('local', {
+       successRedirect : '/admin', // redirect to the secure profile section
+       failureRedirect : '/admin/login', // redirect back to the signup page if there is an error
+       failureFlash : true // allow flash messages
+   }));
 
 
 //multer package to help with upload
@@ -23,7 +44,7 @@ const upload = multer({ storage: storage });
 
 
 //get request for admin page
- router.get("/", function(req, res){
+ router.get("/", ensureAuthenticated, function(req, res){
   res.render("admin");
 });
 
@@ -79,6 +100,16 @@ try{
  console.log(err);
 }
 });
+
+function ensureAuthenticated(req, res, next) {
+  console.log("work");
+  if (req.isAuthenticated()){
+    return next();
+  }else{
+    // Return error content: res.jsonp(...) or redirect:
+     res.redirect('/admin/login')
+   }
+}
 
 
 module.exports = router;

@@ -1,11 +1,17 @@
- const express = require("express");
- const path = require('path');
+const express = require("express");
+const path = require('path');
 const serveStatic = require('serve-static');
 const mongoose = require("mongoose");
 const Song = require("./models/musicmodel");
+const Admin = require("./models/adminModel");
 const bodyParser = require('body-parser');
 const admin = require("./routes/adminRoute");
-const about = require("./routes/aboutRoute")
+const about = require("./routes/aboutRoute");
+const passport = require("passport");
+const session = require("express-session");
+const LocalStrategy = require("passport-local").Strategy;
+const flash = require("express-flash");
+const auth = require("./passportAuth/auth");
  const app = express();
 
 
@@ -14,15 +20,55 @@ const about = require("./routes/aboutRoute")
 
 
 app.use(bodyParser.urlencoded({ extended: false }));
+
+auth(passport, Admin);
+
+//letting express use passport and session
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: true,
+  saveUninitialized: true
+}))
+
+app.use(flash());
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+
+
+
+async function doStuff() {
+  let adminUser = await Admin.findOne({username: "BrosB"});
+
+ return  console.log(adminUser.username);
+}
+
+
+doStuff();
+
+
+
+
+
+
+
+
+
 //use the adminRoute.js
 app.use("/Admin", admin);
 //use the aboutRoute.js
 app.use("/About", about);
 
 
+
+
 //telling express to use certainpackages
  app.use(express.static(path.join(__dirname, "public")));
  app.set("view engine", "ejs");
+
+
+
 
 
 
