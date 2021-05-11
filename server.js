@@ -12,6 +12,7 @@ const session = require("express-session");
 const LocalStrategy = require("passport-local").Strategy;
 const flash = require("express-flash");
 const auth = require("./passportAuth/auth");
+var methodOverride = require("method-override");
  const app = express();
 
 
@@ -20,6 +21,12 @@ const auth = require("./passportAuth/auth");
 
 
 app.use(bodyParser.urlencoded({ extended: false }));
+
+//telling express to use certainpackages
+ app.use(express.static(path.join(__dirname, "/public")));
+app.use(methodOverride("_method"));
+
+ app.set("view engine", "ejs");
 
 auth(passport, Admin);
 
@@ -37,37 +44,10 @@ app.use(passport.session());
 
 
 
-
-async function doStuff() {
-  let adminUser = await Admin.findOne({username: "BrosB"});
-
- return  console.log(adminUser.username);
-}
-
-
-doStuff();
-
-
-
-
-
-
-
-
-
 //use the adminRoute.js
 app.use("/Admin", admin);
 //use the aboutRoute.js
 app.use("/About", about);
-
-
-
-
-//telling express to use certainpackages
- app.use(express.static(path.join(__dirname, "public")));
- app.set("view engine", "ejs");
-
-
 
 
 

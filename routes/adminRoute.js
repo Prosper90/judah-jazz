@@ -17,6 +17,10 @@ const router = express.Router();
 
 
 
+
+
+
+
 router.get("/login", function(req, res){
  res.render("adminLogin");
 });
@@ -48,8 +52,10 @@ const upload = multer({ storage: storage });
   res.render("admin");
 });
 
+
+
 //Post request for admin
-router.post("/", upload.single("media"),  async function(req, res){
+router.post("/", upload.single("media"), async function(req, res){
 
 //get the latest uploaded file
   function getLatestFile(dirpath) {
@@ -95,14 +101,19 @@ let song = new Song ({
 
 try{
   await song.save();
-  res.redirect("/")
+  res.redirect("/admin/adminUploads")
 }catch(err) {
  console.log(err);
 }
 });
 
+
+
+
+
+//ensure uthentication
 function ensureAuthenticated(req, res, next) {
-  console.log("work");
+  //console.log("work");
   if (req.isAuthenticated()){
     return next();
   }else{
@@ -110,6 +121,123 @@ function ensureAuthenticated(req, res, next) {
      res.redirect('/admin/login')
    }
 }
+
+
+
+
+//get total uploads by the admin
+router.get("/adminUploads", ensureAuthenticated, async function(req, res){
+   const song = await Song.find();
+ res.render("adminUploads", {song: song});
+});
+
+
+
+//get a particular song to edit
+router.get("/:id", ensureAuthenticated, async function(req, res){
+  let song = await Song.findById(req.params.id);
+  res.render("editSong", {song: song});
+});
+
+
+
+
+//editing a particular song
+router.put("/:id",  upload.single("media"),  async function(req, res){
+
+//getting the particular data to update
+let uploadedSong = await Song.findById(req.params.id);
+console.log(uploadedSong);
+//getting the url to delete
+  let oldMusic = "public/assets/media" + uploadedSong.audiourl + " ";
+  console.log(oldMusic);
+
+//checking to see if file exist then deleting
+  fs.stat(oldMusic, function (err, stats) {
+//here we got all information of file in stats variable
+   //console.log(stats);
+
+   if (err) {
+       return console.error(err);
+   }
+
+  if(req.body.media){
+   fs.unlink(oldMusic, function(err){
+        if(err) return console.log(err);
+        console.log('file deleted successfully');
+   });
+   }
+
+});
+
+//Then using multer again
+
+
+//get the latest uploaded file
+  function getLatestFile(dirpath) {
+    // Check if dirpath exist or not right here
+    let latest;
+
+    const files = fs.readdirSync(dirpath);
+    files.forEach(filename => {
+      // Get the stat
+      const stat = fs.lstatSync(path.join(dirpath, filename));
+      // Pass if it is a directory
+      if (stat.isDirectory())
+        return;
+      // latest default to first file
+      if (!latest) {
+        latest = {filename, mtime: stat.mtime};
+        return;
+      }
+      // update latest if mtime is greater than the current latest
+      if (stat.mtime > latest.mtime) {
+        latest.filename = filename;
+        latest.mtime = stat.mtime;
+      }
+    });
+
+    return latest.filename;
+  }
+
+
+let audio = getLatestFile("public/assets/media");
+
+//get the src of the new uploaded media
+
+let src = "/assets/media/"+ audio + " ";
+
+  console.log(src);
+
+
+    const ID = req.params.id;
+    const updates = {};
+      updates.name = req.body.name
+      updates.firstAuthur = req.body.firstAuthur;
+      updates.audiourl = src;
+
+   await Song.findByIdAndUpdate(ID, { $set: updates,}, { new: true,});
+
+
+//await Song.findOneAndUpdate({id: req.params.id},  {$set{ name: req.body.name, firstAuthur: req.body.firstAuthur, audiourl: src}});
+
+   res.redirect('/admin/adminUploads');
+})
+
+
+
+router.delete("/:id", async function(req, res){
+  let ID = req.params.id;
+  await Song.findByIdAndRemove(ID, function(err, docs){
+    if (err){
+          console.log(err)
+      }
+      else{
+          console.log("Removed User : ", docs);
+      }
+  })
+  res.redirect('/admin/adminUploads');
+});
 
 
 module.exports = router;
