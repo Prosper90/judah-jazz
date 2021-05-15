@@ -147,32 +147,44 @@ router.put("/:id",  upload.single("media"),  async function(req, res){
 
 //getting the particular data to update
 let uploadedSong = await Song.findById(req.params.id);
-console.log(uploadedSong);
+//console.log(uploadedSong);
 //getting the url to delete
-  let oldMusic = "public/assets/media" + uploadedSong.audiourl + " ";
-  console.log(oldMusic);
+  let oldMusic = uploadedSong.audiourl;
+ //console.log(uploadedSong.audiourl);
 
-//checking to see if file exist then deleting
-  fs.stat(oldMusic, function (err, stats) {
-//here we got all information of file in stats variable
-   //console.log(stats);
 
-   if (err) {
-       return console.error(err);
-   }
+   console.log(oldMusic);
 
-  if(req.body.media){
-   fs.unlink(oldMusic, function(err){
-        if(err) return console.log(err);
-        console.log('file deleted successfully');
+   function deleteFile(dirpath) {
+
+     const files = fs.readdirSync(dirpath);
+     files.forEach(filename => {
+      let check = "/assets/media/" + filename + " ";
+       // Get the stat
+       //console.log(filename);
+       console.log(check);
+     if(oldMusic == check){
+        if(req.body.Yes){
+          try {
+    fs.unlinkSync("public/assets/media/" + filename + "");
+    console.log("file deleted");
+    //file removed
+      } catch(err) {
+    console.error(err)
+     }
+        }
+      };
    });
-   }
 
-});
+ }
+
+ //public/assets/media/omah-lay-lo-lo-official-audio.mp3
+
+   deleteFile("public/assets/media");
+
+//public/assets/media/nf-therapy-session.mp3
 
 //Then using multer again
-
-
 //get the latest uploaded file
   function getLatestFile(dirpath) {
     // Check if dirpath exist or not right here
@@ -207,7 +219,7 @@ let audio = getLatestFile("public/assets/media");
 
 let src = "/assets/media/"+ audio + " ";
 
-  console.log(src);
+  //console.log(src);
 
 
     const ID = req.params.id;
@@ -225,7 +237,7 @@ let src = "/assets/media/"+ audio + " ";
 })
 
 
-
+// delete a song
 router.delete("/:id", async function(req, res){
   let ID = req.params.id;
   await Song.findByIdAndRemove(ID, function(err, docs){
@@ -239,5 +251,10 @@ router.delete("/:id", async function(req, res){
   res.redirect('/admin/adminUploads');
 });
 
+
+//get out of delete
+router.get("/adminUploads/cancel", function(req, res){
+    res.redirect('/admin/adminUploads');
+});
 
 module.exports = router;

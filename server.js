@@ -23,7 +23,7 @@ var methodOverride = require("method-override");
 app.use(bodyParser.urlencoded({ extended: false }));
 
 //telling express to use certainpackages
- app.use(express.static(path.join(__dirname, "/public")));
+ app.use(express.static(path.join(__dirname, "public")));
 app.use(methodOverride("_method"));
 
  app.set("view engine", "ejs");
