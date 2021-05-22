@@ -25,6 +25,23 @@
 
 
 
+#z-index{
+    z-index: 1;
+    position: relative;
+    height: auto;
+}
+
+#in-Touch {
+ border-radius: 15px;
+ width: 100px
+}
+
+
+#contact {
+  height: 340px;
+}
+
+
 #invincible{
   display: none;
   width: 270px;

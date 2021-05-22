@@ -152,6 +152,8 @@ let uploadedSong = await Song.findById(req.params.id);
   let oldMusic = uploadedSong.audiourl;
  //console.log(uploadedSong.audiourl);
 
+ console.log(req.body.Rad);
+
 
    console.log(oldMusic);
 
@@ -164,7 +166,7 @@ let uploadedSong = await Song.findById(req.params.id);
        //console.log(filename);
        console.log(check);
      if(oldMusic == check){
-        if(req.body.Yes){
+        if(req.body.Rad == "Yes"){
           try {
     fs.unlinkSync("public/assets/media/" + filename + "");
     console.log("file deleted");

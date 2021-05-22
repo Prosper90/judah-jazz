@@ -7,6 +7,8 @@ const Admin = require("./models/adminModel");
 const bodyParser = require('body-parser');
 const admin = require("./routes/adminRoute");
 const about = require("./routes/aboutRoute");
+const bookus = require("./routes/bookusRoute");
+const members = require("./routes/membersRoute");
 const passport = require("passport");
 const session = require("express-session");
 const LocalStrategy = require("passport-local").Strategy;
@@ -48,7 +50,10 @@ app.use(passport.session());
 app.use("/Admin", admin);
 //use the aboutRoute.js
 app.use("/About", about);
-
+//use the bookus.js
+app.use("/Bookus", bookus);
+//use the members.js
+app.use("/Members", members);
 
 
 
