@@ -3,7 +3,7 @@
  const mongoose = require("mongoose");
  const Schema = mongoose.Schema;
 
-mongoose.connect(process.env.MONGO_URI, {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false});
+mongoose.connect(process.env.MONGO_URI || "mongodb://localhost:27017/music", {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false});
 
  const songSchema  = mongoose.Schema({
    name:{ type: String, require: true },
@@ -12,4 +12,4 @@ mongoose.connect(process.env.MONGO_URI, {useNewUrlParser: true, useUnifiedTopolo
    audiourl: {type: String, require: true }
  });
 
- module.exports = mongoose.model("Song", songSchema); 
+ module.exports = mongoose.model("Song", songSchema);
