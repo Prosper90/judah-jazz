@@ -59,7 +59,7 @@ app.use("/Members", members);
 
 
 //get request for the home view
- app.get("/", async function(req, res, next){
+ app.get("/judah-jazz", async function(req, res, next){
 
  let page = req.query.page;
  let size = 6;
