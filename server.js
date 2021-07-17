@@ -61,6 +61,8 @@ app.use("/Members", members);
 //get request for the home view
  app.get("/judah-jazz", async function(req, res, next){
 
+
+   console.log(Admin);
  let page = req.query.page;
  let size = 6;
  if(!page){

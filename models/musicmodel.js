@@ -3,7 +3,7 @@
  const mongoose = require("mongoose");
  const Schema = mongoose.Schema;
 
-mongoose.connect(process.env.MONGO_URI || "mongodb://localhost:27017/music", {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false});
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost:27017/music", {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false});
 
  const songSchema  = mongoose.Schema({
    name:{ type: String, require: true },
