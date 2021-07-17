@@ -9,7 +9,7 @@ module.exports = function(passport, Admin) {
 
   //passport-Strategy//use passport local strategy and call authenticate user funtion
   passport.use(new LocalStrategy( async function(username, password, done) {
-    //console.log("happy");
+    console.log("called locall strategy");
      await  Admin.findOne({ username: username }, function(err, user) {
         if (err) { return done(err); }
         if (!user) {
