@@ -48,14 +48,14 @@ const upload = multer({ storage: storage });
 
 
 //get request for admin page
- router.get("/", ensureAuthenticated, function(req, res){
+ router.get("/judah-jazz/", ensureAuthenticated, function(req, res){
   res.render("admin");
 });
 
 
 
 //Post request for admin
-router.post("/", upload.single("media"), async function(req, res){
+router.post("/judah-jazz/", upload.single("media"), async function(req, res){
 
 //get the latest uploaded file
   function getLatestFile(dirpath) {
@@ -126,7 +126,7 @@ function ensureAuthenticated(req, res, next) {
 
 
 //get total uploads by the admin
-router.get("/adminUploads", ensureAuthenticated, async function(req, res){
+router.get("/judah-jazz/adminUploads", ensureAuthenticated, async function(req, res){
    const song = await Song.find();
  res.render("adminUploads", {song: song});
 });
@@ -134,7 +134,7 @@ router.get("/adminUploads", ensureAuthenticated, async function(req, res){
 
 
 //get a particular song to edit
-router.get("/:id", ensureAuthenticated, async function(req, res){
+router.get("/judah-jazz/:id", ensureAuthenticated, async function(req, res){
   let song = await Song.findById(req.params.id);
   res.render("editSong", {song: song});
 });
@@ -143,7 +143,7 @@ router.get("/:id", ensureAuthenticated, async function(req, res){
 
 
 //editing a particular song
-router.put("/:id",  upload.single("media"),  async function(req, res){
+router.put("/judah-jazz/:id",  upload.single("media"),  async function(req, res){
 
 //getting the particular data to update
 let uploadedSong = await Song.findById(req.params.id);
@@ -235,7 +235,7 @@ let src = "/assets/media/"+ audio + " ";
 
 //await Song.findOneAndUpdate({id: req.params.id},  {$set{ name: req.body.name, firstAuthur: req.body.firstAuthur, audiourl: src}});
 
-   res.redirect('/admin/adminUploads');
+   res.redirect('/judah-jazz/admin/adminUploads');
 })
 
 
@@ -250,7 +250,7 @@ router.delete("/:id", async function(req, res){
           console.log("Removed User : ", docs);
       }
   })
-  res.redirect('/admin/adminUploads');
+  res.redirect('/judah-jazz/admin/adminUploads');
 });
 
 
