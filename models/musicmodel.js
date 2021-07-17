@@ -1,14 +1,15 @@
-   require("dotenv").config();
-   const mongoose = require("mongoose");
-   const Schema = mongoose.Schema;
 
- mongoose.connect(process.env.MONGO_URI, {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false});
+ require("dotenv").config();
+ const mongoose = require("mongoose");
+ const Schema = mongoose.Schema;
 
-   const songSchema  = mongoose.Schema({
-     name:{ type: String, require: true },
-     firstAuthur:{type: String, require: true},
-     createdAt: {type: Date, default: Date.now},
-     audiourl: {type: String, require: true }
-   });
+mongoose.connect(process.env.MONGO_URI, {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false});
 
-   module.exports = mongoose.model("Song", songSchema);
+ const songSchema  = mongoose.Schema({
+   name:{ type: String, require: true },
+   firstAuthur:{type: String, require: true},
+   createdAt: {type: Date, default: Date.now},
+   audiourl: {type: String, require: true }
+ });
+
+ module.exports = mongoose.model("Song", songSchema);
