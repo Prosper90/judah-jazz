@@ -1,1 +1,1 @@
-web: node judah-jazz/index.js
+Web: node index.js
